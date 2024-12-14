@@ -1,0 +1,11 @@
+core.Microsoft*
+core.mongo*
+core.python*
+env.py
+__pycache__/
+*.py[cod]
+node_modules/
+cloudinary_python.txt
+venv
+.vscode
+portfolio_backend/db.sqlite3
