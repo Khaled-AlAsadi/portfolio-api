@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'portfolio_backend_app',
+    'portfolio_api_app',
     'drf_spectacular',
     'drf_spectacular_sidecar',
 ]
@@ -64,7 +64,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'portfolio_backend_project.urls'
+ROOT_URLCONF = 'portfolio_api_project.urls'
 
 TEMPLATES = [
     {
@@ -82,7 +82,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'portfolio_backend_project.wsgi.application'
+WSGI_APPLICATION = 'portfolio_api_project.wsgi.application'
 
 
 # Database
