@@ -1,6 +1,6 @@
 from drf_spectacular.utils import OpenApiExample, OpenApiResponse
 
-# Example for a health check response
+
 class HealthCheckSchemas:
     RESPONSE = {
         "type": "object",
