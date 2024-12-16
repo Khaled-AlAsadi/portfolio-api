@@ -6,3 +6,5 @@ python-dotenv==1.0.1
 drf-spectacular==0.28.0
 djangorestframework-simplejwt==5.3.1
 drf-spectacular-sidecar==2024.12.1
+django-cors-headers==4.6.0
+drf-yasg==2024.2

@@ -2,7 +2,32 @@ from rest_framework import serializers
 from .models import *
 
 
+class WorkExperinceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WorkExperince
+        fields = ['id',
+                  'occupation_title',
+                  'company_name',
+                  'date',
+                  'description',
+                  'tags'
+                ]
+                  
+        extra_kwargs = {
+            'id': {'read_only': True},
+        }
+
+class PortfolioSerializer(serializers.ModelSerializer):
+    work_experiences = WorkExperinceSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = Portfolio
+        fields = ['role', 'introduction', 'work_experiences']
+
+
 class CustomUserSerializer(serializers.ModelSerializer):
+    portfolio = PortfolioSerializer(read_only=True)
+
     class Meta:
         model = CustomUser
         fields = [
@@ -10,6 +35,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
             'first_name',
             'last_name',
             'mobile_number',
+            'portfolio',
             'password'
         ]
         extra_kwargs = {

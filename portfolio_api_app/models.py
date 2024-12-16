@@ -4,6 +4,8 @@ from django.contrib.auth.base_user import BaseUserManager
 from portfolio_api_project import settings
 
 # Create your models here.
+
+
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         if not email:
@@ -36,3 +38,31 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+
+class Portfolio(models.Model):
+    user = models.OneToOneField(
+        CustomUser,
+        on_delete=models.CASCADE,
+        related_name='portfolio',
+        null=True,
+        blank=True
+    )
+    role = models.CharField(max_length=50)
+    introduction = models.CharField(max_length=1000)
+
+
+class WorkExperince(models.Model):
+    user = models.ForeignKey(
+        Portfolio,
+        on_delete=models.CASCADE,
+        related_name='work_experiences'
+    )
+    occupation_title = models.CharField(max_length=50)
+    company_name = models.CharField(max_length=50)
+    date = models.CharField(max_length=30)
+    description = models.CharField(max_length=500)
+    tags = models.JSONField(default=list, blank=True, null=True)
+
+    def __str__(self):
+        return self.occupation_title
