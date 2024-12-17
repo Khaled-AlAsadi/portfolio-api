@@ -66,3 +66,16 @@ class WorkExperince(models.Model):
 
     def __str__(self):
         return self.occupation_title
+
+
+class Language(models.Model):
+    user = models.ForeignKey(
+        Portfolio,
+        on_delete=models.CASCADE,
+        related_name='languages'
+    )
+    language = models.JSONField(default=list, blank=True, null=True)
+    level = models.CharField(max_length=50,default='')
+
+    def __str__(self):
+        return self.language
