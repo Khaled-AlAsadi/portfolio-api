@@ -1,17 +1,18 @@
 from rest_framework import serializers
 from .models import *
 
+
 class LanguageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Language
         fields = ['id',
                   'language',
                   'level'
-                ]
-                  
+                  ]
         extra_kwargs = {
             'id': {'read_only': True},
         }
+
 
 class WorkExperinceSerializer(serializers.ModelSerializer):
     class Meta:
@@ -22,19 +23,20 @@ class WorkExperinceSerializer(serializers.ModelSerializer):
                   'date',
                   'description',
                   'tags'
-                ]
-                  
+                  ]
         extra_kwargs = {
             'id': {'read_only': True},
         }
 
+
 class PortfolioSerializer(serializers.ModelSerializer):
     work_experiences = WorkExperinceSerializer(read_only=True, many=True)
-    languages = LanguageSerializer(many=True, read_only=True)  # Add languages here
+    languages = LanguageSerializer(many=True,
+                                   read_only=True)
 
     class Meta:
         model = Portfolio
-        fields = ['role', 'introduction', 'work_experiences','languages']
+        fields = ['role', 'introduction', 'work_experiences', 'languages']
 
 
 class CustomUserSerializer(serializers.ModelSerializer):

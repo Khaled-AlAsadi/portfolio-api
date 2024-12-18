@@ -7,6 +7,7 @@ from rest_framework import status
 from django.http import HttpResponse, JsonResponse
 from portfolio_api_app.models import *
 
+
 @extend_schema(request=PortfolioSerializer)
 @api_view(['PATCH'])
 def update_portfolio(request):

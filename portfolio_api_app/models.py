@@ -75,7 +75,7 @@ class Language(models.Model):
         related_name='languages'
     )
     language = models.JSONField(default=list, blank=True, null=True)
-    level = models.CharField(max_length=50,default='')
+    level = models.CharField(max_length=50, default='')
 
     def __str__(self):
         return self.language
