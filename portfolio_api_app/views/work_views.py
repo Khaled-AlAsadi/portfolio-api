@@ -6,6 +6,7 @@ from drf_spectacular.utils import extend_schema, OpenApiResponse
 from rest_framework.response import Response
 from rest_framework import status
 from django.http import HttpResponse, JsonResponse
+from django.shortcuts import get_object_or_404
 
 
 @api_view(['GET'])
@@ -21,7 +22,7 @@ def get_work_experinces(request):
         return JsonResponse({'error': 'Portfolio not found for this user'},
                             status=404)
 
-    work_experiences = WorkExperince.objects.filter(user=portfolio)
+    work_experiences = WorkExperince.objects.filter(portfolio=portfolio)
     user_serializer = WorkExperinceSerializer(work_experiences, many=True)
     return Response(user_serializer.data)
 
@@ -39,7 +40,7 @@ def create_work_experince(request):
     serializer = WorkExperinceSerializer(data=request.data)
 
     if serializer.is_valid():
-        serializer.save(user=portfolio)
+        serializer.save(portfolio=portfolio)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -55,7 +56,7 @@ def delete_work_experince(request, id):
 
     portfolio = Portfolio.objects.get(user=user)
 
-    work_experience = get_object_or_404(WorkExperince, id=id, user=portfolio)
+    work_experience = get_object_or_404(WorkExperince, id=id, portfolio=portfolio)
 
     work_experience.delete()
     return Response({'description': 'Work experience deleted successfully.'})
@@ -73,7 +74,7 @@ def update_work_experince(request, id):
     portfolio = get_object_or_404(Portfolio,
                                   user=user)
 
-    work_experience = get_object_or_404(WorkExperince, id=id, user=portfolio)
+    work_experience = get_object_or_404(WorkExperince, id=id, portfolio=portfolio)
 
     serializer = WorkExperinceSerializer(work_experience, data=request.data,
                                          partial=True)

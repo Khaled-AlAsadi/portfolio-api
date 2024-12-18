@@ -53,7 +53,7 @@ class Portfolio(models.Model):
 
 
 class WorkExperince(models.Model):
-    user = models.ForeignKey(
+    portfolio = models.ForeignKey(
         Portfolio,
         on_delete=models.CASCADE,
         related_name='work_experiences'
@@ -62,14 +62,13 @@ class WorkExperince(models.Model):
     company_name = models.CharField(max_length=50)
     date = models.CharField(max_length=30)
     description = models.CharField(max_length=500)
-    tags = models.JSONField(default=list, blank=True, null=True)
 
     def __str__(self):
         return self.occupation_title
 
 
 class Language(models.Model):
-    user = models.ForeignKey(
+    portfolio = models.ForeignKey(
         Portfolio,
         on_delete=models.CASCADE,
         related_name='languages'
@@ -79,3 +78,12 @@ class Language(models.Model):
 
     def __str__(self):
         return self.language
+
+
+class Tag(models.Model):
+    work_experience = models.ForeignKey(
+        WorkExperince,
+        on_delete=models.CASCADE,
+        related_name='tags'
+    )
+    tag = models.CharField(max_length=50, default='')
