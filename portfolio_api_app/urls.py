@@ -4,6 +4,7 @@ from django.urls import path, include
 urlpatterns = [
     path('auth/obtain-token', views.CustomTokenObtainPairView.as_view(), name='obtain-token'),
     path('user', views.get_user, name='get-user'),
+    path('user/update', views.update_user, name='update-user'),
     path('portfolio/update', views.update_portfolio, name='update-portfolio'),
     path('portfolio/retrive', views.get_portfolio, name='retrive-portfolio'),
     path('work-experinces', views.get_work_experinces, name='work-experinces'),
