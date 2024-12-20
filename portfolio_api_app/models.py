@@ -80,6 +80,18 @@ class Language(models.Model):
         return self.language
 
 
+class Education(models.Model):
+    portfolio = models.ForeignKey(
+        Portfolio,
+        on_delete=models.CASCADE,
+        related_name='educations'
+    )
+    course_name = models.CharField(max_length=200)
+    school_name = models.CharField(max_length=100)
+    description = models.CharField(max_length=1000)
+    date = models.CharField(max_length=30, default='')
+
+
 class Tag(models.Model):
     work_experience = models.ForeignKey(
         WorkExperince,

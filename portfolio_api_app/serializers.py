@@ -14,6 +14,20 @@ class LanguageSerializer(serializers.ModelSerializer):
         }
 
 
+class EducationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Education
+        fields = ['id',
+                  'course_name',
+                  'school_name',
+                  'date',
+                  'description'
+                  ]
+        extra_kwargs = {
+            'id': {'read_only': True},
+        }
+
+
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
@@ -24,8 +38,10 @@ class TagSerializer(serializers.ModelSerializer):
             'id': {'read_only': True},
         }
 
+
 class WorkExperinceSerializer(serializers.ModelSerializer):
     tags = TagSerializer(many=True)
+
     class Meta:
         model = WorkExperince
         fields = ['id',
@@ -49,14 +65,17 @@ class WorkExperinceSerializer(serializers.ModelSerializer):
 
         return work_experience
 
+
 class PortfolioSerializer(serializers.ModelSerializer):
     work_experiences = WorkExperinceSerializer(read_only=True, many=True)
     languages = LanguageSerializer(many=True,
                                    read_only=True)
+    educations = EducationSerializer(many=True,
+                                     read_only=True)
 
     class Meta:
         model = Portfolio
-        fields = ['role', 'introduction', 'work_experiences', 'languages']
+        fields = ['role', 'introduction', 'work_experiences', 'languages', 'educations']
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
