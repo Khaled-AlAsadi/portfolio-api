@@ -10,12 +10,9 @@ from portfolio_api_app.errors import *
 
 
 @extend_schema(
-    summary="Get User Details",
-    description="Returns authenticated user details. Requires Authorization.",
-    responses={
-        200: CustomUserSerializer,
-        401: Schemas.UNAUTHORIZED_RESPONSE,
-    }
+    summary=Schemas.UserSchema["summary"],
+    description=Schemas.UserSchema["description"],
+    responses=Schemas.UserSchema["responses"],
 )
 @api_view(['GET'])
 def get_user(request):
@@ -28,7 +25,12 @@ def get_user(request):
     return Response(user_serializer.data)
 
 
-@extend_schema(request=CustomUserSerializer)
+@extend_schema(
+    summary=Schemas.UserSchema["summary"],
+    description=Schemas.UserSchema["description"],
+    responses=Schemas.UserSchema["responses"],
+    request=Schemas.UserSchema["request"],
+)
 @api_view(['PUT'])
 def update_user(request):
     user = request.user

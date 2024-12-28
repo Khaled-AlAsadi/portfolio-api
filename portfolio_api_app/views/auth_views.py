@@ -1,9 +1,18 @@
 from portfolio_api_app.errors import *
+from portfolio_api_app.schemas import *
 from rest_framework.response import Response
 from portfolio_api_app.models import CustomUser
 from rest_framework_simplejwt.views import TokenObtainPairView
+from drf_spectacular.utils import extend_schema
+from drf_spectacular.utils import OpenApiResponse, inline_serializer
+from portfolio_api_app.serializers import *
 
 
+@extend_schema(
+    summary=Schemas.TokenObtainSchema["summary"],
+    description=Schemas.TokenObtainSchema["description"],
+    responses=Schemas.TokenObtainSchema["responses"],
+)
 class CustomTokenObtainPairView(TokenObtainPairView):
     def post(self, request, *args, **kwargs):
         email = request.data.get('email')
