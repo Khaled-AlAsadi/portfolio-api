@@ -8,6 +8,7 @@ from drf_spectacular.utils import extend_schema, OpenApiResponse
 from django.shortcuts import get_object_or_404
 
 
+@extend_schema(request=EducationSerializer)
 @api_view(['GET'])
 def get_educations(request):
     user = request.user

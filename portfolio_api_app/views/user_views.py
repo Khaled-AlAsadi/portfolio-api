@@ -3,7 +3,7 @@ from rest_framework import status
 from portfolio_api_app.serializers import *
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from portfolio_api_app.schemas import *
+from portfolio_api_app.schemas.user_schema import Schemas
 from django.http import HttpResponse, JsonResponse
 from portfolio_api_app.models import *
 from portfolio_api_app.errors import *

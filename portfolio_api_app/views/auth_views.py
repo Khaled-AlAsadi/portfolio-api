@@ -1,5 +1,5 @@
 from portfolio_api_app.errors import *
-from portfolio_api_app.schemas import *
+from portfolio_api_app.schemas.auth_schema import Schemas
 from rest_framework.response import Response
 from portfolio_api_app.models import CustomUser
 from rest_framework_simplejwt.views import TokenObtainPairView

@@ -1,5 +1,4 @@
 from portfolio_api_app.serializers import *
-from portfolio_api_app.schemas import *
 from portfolio_api_app.models import *
 from rest_framework.decorators import api_view
 from drf_spectacular.utils import extend_schema, OpenApiResponse
