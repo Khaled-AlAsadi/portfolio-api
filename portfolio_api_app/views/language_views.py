@@ -1,14 +1,19 @@
 from portfolio_api_app.serializers import LanguageSerializer
-from portfolio_api_app.schemas import *
-from portfolio_api_app.models import *
+from portfolio_api_app.models import Language
 from rest_framework.decorators import api_view
 from drf_spectacular.utils import extend_schema, OpenApiResponse
 from rest_framework.response import Response
 from rest_framework import status
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404
+from portfolio_api_app.schemas.language_schema import Schemas
 
 
+@extend_schema(
+    summary=Schemas.LanguageSchemaGet["summary"],
+    description=Schemas.LanguageSchemaGet["description"],
+    responses=Schemas.LanguageSchemaGet["responses"],
+)
 @api_view(['GET'])
 def get_languages(request):
     user = request.user
@@ -27,7 +32,12 @@ def get_languages(request):
     return Response(user_serializer.data)
 
 
-@extend_schema(request=LanguageSerializer)
+@extend_schema(
+    summary=Schemas.LanguageSchemaPost["summary"],
+    description=Schemas.LanguageSchemaPost["description"],
+    responses=Schemas.LanguageSchemaPost["responses"],
+    request=Schemas.LanguageSchemaPost["request"],
+)
 @api_view(['POST'])
 def add_language(request):
     user = request.user
@@ -46,7 +56,12 @@ def add_language(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@extend_schema(request=str)
+@extend_schema(
+    summary=Schemas.LanguageSchemaDelete["summary"],
+    description=Schemas.LanguageSchemaDelete["description"],
+    responses=Schemas.LanguageSchemaDelete["responses"],
+    request=Schemas.LanguageSchemaDelete["request"],
+)
 @api_view(['DELETE'])
 def delete_language(request, id):
     user = request.user
@@ -62,7 +77,12 @@ def delete_language(request, id):
     return Response({'description': 'Language deleted successfully.'})
 
 
-@extend_schema(request=LanguageSerializer)
+@extend_schema(
+    summary=Schemas.LanguageSchemaPut["summary"],
+    description=Schemas.LanguageSchemaPut["description"],
+    responses=Schemas.LanguageSchemaPut["responses"],
+    request=Schemas.LanguageSchemaPut["request"],
+)
 @api_view(['PUT'])
 def update_language(request, id):
     user = request.user
