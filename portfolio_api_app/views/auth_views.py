@@ -6,6 +6,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from drf_spectacular.utils import extend_schema
 from drf_spectacular.utils import OpenApiResponse, inline_serializer
 from portfolio_api_app.serializers import *
+from rest_framework import status
 
 
 @extend_schema(
