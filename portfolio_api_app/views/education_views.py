@@ -3,12 +3,17 @@ from rest_framework.decorators import api_view
 from django.http import HttpResponse, JsonResponse
 from rest_framework import status
 from rest_framework.response import Response
-from portfolio_api_app.serializers import *
-from drf_spectacular.utils import extend_schema, OpenApiResponse
+from portfolio_api_app.serializers import EducationSerializer
+from drf_spectacular.utils import extend_schema
 from django.shortcuts import get_object_or_404
+from portfolio_api_app.schemas.education_schema import Schemas
 
 
-@extend_schema(request=EducationSerializer)
+@extend_schema(
+    summary=Schemas.EducationSchemaGet["summary"],
+    description=Schemas.EducationSchemaGet["description"],
+    responses=Schemas.EducationSchemaGet["responses"],
+)
 @api_view(['GET'])
 def get_educations(request):
     user = request.user
@@ -27,7 +32,12 @@ def get_educations(request):
     return Response(user_serializer.data)
 
 
-@extend_schema(request=EducationSerializer)
+@extend_schema(
+    summary=Schemas.EducationSchemaPost["summary"],
+    description=Schemas.EducationSchemaPost["description"],
+    responses=Schemas.EducationSchemaPost["responses"],
+    request=Schemas.EducationSchemaPost["request"],
+)
 @api_view(['POST'])
 def create_education(request):
     user = request.user
@@ -46,7 +56,12 @@ def create_education(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@extend_schema(request=str)
+@extend_schema(
+    summary=Schemas.EducationSchemaDelete["summary"],
+    description=Schemas.EducationSchemaDelete["description"],
+    responses=Schemas.EducationSchemaDelete["responses"],
+    request=Schemas.EducationSchemaDelete["request"],
+)
 @api_view(['DELETE'])
 def delete_education(request, id):
     user = request.user
@@ -59,10 +74,15 @@ def delete_education(request, id):
     education = get_object_or_404(Education, id=id, portfolio=portfolio)
 
     education.delete()
-    return Response({'description': 'Work experience deleted successfully.'})
+    return Response({'description': 'Education deleted successfully.'})
 
 
-@extend_schema(request=EducationSerializer)
+@extend_schema(
+    summary=Schemas.EducationSchemaPut["summary"],
+    description=Schemas.EducationSchemaPut["description"],
+    responses=Schemas.EducationSchemaPut["responses"],
+    request=Schemas.EducationSchemaPut["request"],
+)
 @api_view(['PUT'])
 def update_education(request, id):
     user = request.user
