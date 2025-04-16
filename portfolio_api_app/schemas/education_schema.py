@@ -10,7 +10,6 @@ class Schemas:
     EducationSchemaGet = {
         "summary": "Retrive User Educations",
         "description": "Retrive Saved User Educations",
-        "request": EducationSerializer,
         "responses": {
             200: EducationSerializer,
             401: OpenApiResponse(
@@ -27,7 +26,7 @@ class Schemas:
 
     EducationSchemaPost = {
         "summary": "Creates User Education",
-        "description": "",
+        "description": "Creates User Education",
         "request": EducationSerializer,
         "responses": {
             200: EducationSerializer,
@@ -63,7 +62,7 @@ class Schemas:
 
     EducationSchemaPut = {
         "summary": "Updates User Education",
-        "description": "",
+        "description": "Updates User Education",
         "request": EducationSerializer,
         "responses": {
             200: EducationSerializer,
