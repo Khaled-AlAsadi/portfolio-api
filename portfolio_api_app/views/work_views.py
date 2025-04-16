@@ -1,13 +1,19 @@
-from portfolio_api_app.serializers import *
-from portfolio_api_app.models import *
+from portfolio_api_app.serializers import WorkExperinceSerializer
+from portfolio_api_app.models import WorkExperince,Portfolio
 from rest_framework.decorators import api_view
-from drf_spectacular.utils import extend_schema, OpenApiResponse
+from drf_spectacular.utils import extend_schema
 from rest_framework.response import Response
 from rest_framework import status
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
+from portfolio_api_app.schemas.work_schema import Schemas
 
 
+@extend_schema(
+    summary=Schemas.WorkSchemaGet["summary"],
+    description=Schemas.WorkSchemaGet["description"],
+    responses=Schemas.WorkSchemaGet["responses"],
+)
 @api_view(['GET'])
 def get_work_experinces(request):
     user = request.user
@@ -26,7 +32,12 @@ def get_work_experinces(request):
     return Response(user_serializer.data)
 
 
-@extend_schema(request=WorkExperinceSerializer)
+@extend_schema(
+    summary=Schemas.WorkSchemaPost["summary"],
+    description=Schemas.WorkSchemaPost["description"],
+    responses=Schemas.WorkSchemaPost["responses"],
+    request=Schemas.WorkSchemaPost["request"],
+)
 @api_view(['POST'])
 def create_work_experince(request):
     user = request.user
@@ -40,12 +51,17 @@ def create_work_experince(request):
 
     if serializer.is_valid():
         serializer.save(portfolio=portfolio)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.data)
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@extend_schema(request=str)
+@extend_schema(
+    summary=Schemas.WorkSchemaDelete["summary"],
+    description=Schemas.WorkSchemaDelete["description"],
+    responses=Schemas.WorkSchemaDelete["responses"],
+    request=Schemas.WorkSchemaDelete["request"],
+)
 @api_view(['DELETE'])
 def delete_work_experince(request, id):
     user = request.user
@@ -62,7 +78,12 @@ def delete_work_experince(request, id):
     return Response({'description': 'Work experience deleted successfully.'})
 
 
-@extend_schema(request=WorkExperinceSerializer)
+@extend_schema(
+    summary=Schemas.WorkSchemaPut["summary"],
+    description=Schemas.WorkSchemaPut["description"],
+    responses=Schemas.WorkSchemaPut["responses"],
+    request=Schemas.WorkSchemaPut["request"],
+)
 @api_view(['PUT'])
 def update_work_experince(request, id):
     user = request.user
