@@ -14,18 +14,17 @@ from portfolio_api_app.schemas.language_schema import Schemas
     description=Schemas.LanguageSchemaGet["description"],
     responses=Schemas.LanguageSchemaGet["responses"],
 )
-@api_view(['GET'])
+@api_view(["GET"])
 def get_languages(request):
     user = request.user
 
     if not user.is_authenticated:
-        return JsonResponse({'error': 'User not authenticated'}, status=401)
+        return JsonResponse({"error": "User not authenticated"}, status=401)
 
-    portfolio = getattr(user, 'portfolio', None)
+    portfolio = getattr(user, "portfolio", None)
 
     if not portfolio:
-        return JsonResponse({'error': 'Portfolio not found for this user'},
-                            status=404)
+        return JsonResponse({"error": "Portfolio not found for this user"}, status=404)
 
     language = Language.objects.filter(user=portfolio)
     user_serializer = LanguageSerializer(language, many=True)
@@ -38,12 +37,12 @@ def get_languages(request):
     responses=Schemas.LanguageSchemaPost["responses"],
     request=Schemas.LanguageSchemaPost["request"],
 )
-@api_view(['POST'])
+@api_view(["POST"])
 def add_language(request):
     user = request.user
 
     if not user.is_authenticated:
-        return JsonResponse({'error': 'User not authenticated'}, status=401)
+        return JsonResponse({"error": "User not authenticated"}, status=401)
 
     portfolio, created = Portfolio.objects.get_or_create(user=user)
 
@@ -62,19 +61,19 @@ def add_language(request):
     responses=Schemas.LanguageSchemaDelete["responses"],
     request=Schemas.LanguageSchemaDelete["request"],
 )
-@api_view(['DELETE'])
+@api_view(["DELETE"])
 def delete_language(request, id):
     user = request.user
 
     if not user.is_authenticated:
-        return JsonResponse({'error': 'User not authenticated'}, status=401)
+        return JsonResponse({"error": "User not authenticated"}, status=401)
 
     portfolio = Portfolio.objects.get(user=user)
 
     language = get_object_or_404(Language, id=id, user=portfolio)
 
     language.delete()
-    return Response({'description': 'Language deleted successfully.'})
+    return Response({"description": "Language deleted successfully."})
 
 
 @extend_schema(
@@ -83,21 +82,20 @@ def delete_language(request, id):
     responses=Schemas.LanguageSchemaPut["responses"],
     request=Schemas.LanguageSchemaPut["request"],
 )
-@api_view(['PUT'])
+@api_view(["PUT"])
 def update_language(request, id):
     user = request.user
 
     if not user.is_authenticated:
-        return Response({'error': 'User not authenticated'},
-                        status=status.HTTP_401_UNAUTHORIZED)
+        return Response(
+            {"error": "User not authenticated"}, status=status.HTTP_401_UNAUTHORIZED
+        )
 
-    portfolio = get_object_or_404(Portfolio,
-                                  user=user)
+    portfolio = get_object_or_404(Portfolio, user=user)
 
     language = get_object_or_404(Language, id=id, user=portfolio)
 
-    serializer = LanguageSerializer(language, data=request.data,
-                                    partial=True)
+    serializer = LanguageSerializer(language, data=request.data, partial=True)
 
     if serializer.is_valid():
         serializer.save()

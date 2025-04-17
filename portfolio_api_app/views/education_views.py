@@ -14,18 +14,17 @@ from portfolio_api_app.schemas.education_schema import Schemas
     description=Schemas.EducationSchemaGet["description"],
     responses=Schemas.EducationSchemaGet["responses"],
 )
-@api_view(['GET'])
+@api_view(["GET"])
 def get_educations(request):
     user = request.user
 
     if not user.is_authenticated:
-        return JsonResponse({'error': 'User not authenticated'}, status=401)
+        return JsonResponse({"error": "User not authenticated"}, status=401)
 
-    portfolio = getattr(user, 'portfolio', None)
+    portfolio = getattr(user, "portfolio", None)
 
     if not portfolio:
-        return JsonResponse({'error': 'Portfolio not found for this user'},
-                            status=404)
+        return JsonResponse({"error": "Portfolio not found for this user"}, status=404)
 
     educations = Education.objects.filter(portfolio=portfolio)
     user_serializer = EducationSerializer(educations, many=True)
@@ -38,12 +37,12 @@ def get_educations(request):
     responses=Schemas.EducationSchemaPost["responses"],
     request=Schemas.EducationSchemaPost["request"],
 )
-@api_view(['POST'])
+@api_view(["POST"])
 def create_education(request):
     user = request.user
 
     if not user.is_authenticated:
-        return JsonResponse({'error': 'User not authenticated'}, status=401)
+        return JsonResponse({"error": "User not authenticated"}, status=401)
 
     portfolio, created = Portfolio.objects.get_or_create(user=user)
 
@@ -62,19 +61,19 @@ def create_education(request):
     responses=Schemas.EducationSchemaDelete["responses"],
     request=Schemas.EducationSchemaDelete["request"],
 )
-@api_view(['DELETE'])
+@api_view(["DELETE"])
 def delete_education(request, id):
     user = request.user
 
     if not user.is_authenticated:
-        return JsonResponse({'error': 'User not authenticated'}, status=401)
+        return JsonResponse({"error": "User not authenticated"}, status=401)
 
     portfolio = Portfolio.objects.get(user=user)
 
     education = get_object_or_404(Education, id=id, portfolio=portfolio)
 
     education.delete()
-    return Response({'description': 'Education deleted successfully.'})
+    return Response({"description": "Education deleted successfully."})
 
 
 @extend_schema(
@@ -83,21 +82,20 @@ def delete_education(request, id):
     responses=Schemas.EducationSchemaPut["responses"],
     request=Schemas.EducationSchemaPut["request"],
 )
-@api_view(['PUT'])
+@api_view(["PUT"])
 def update_education(request, id):
     user = request.user
 
     if not user.is_authenticated:
-        return Response({'error': 'User not authenticated'},
-                        status=status.HTTP_401_UNAUTHORIZED)
+        return Response(
+            {"error": "User not authenticated"}, status=status.HTTP_401_UNAUTHORIZED
+        )
 
-    portfolio = get_object_or_404(Portfolio,
-                                  user=user)
+    portfolio = get_object_or_404(Portfolio, user=user)
 
     education = get_object_or_404(Education, id=id, portfolio=portfolio)
 
-    serializer = EducationSerializer(education, data=request.data,
-                                     partial=True)
+    serializer = EducationSerializer(education, data=request.data, partial=True)
 
     if serializer.is_valid():
         serializer.save()

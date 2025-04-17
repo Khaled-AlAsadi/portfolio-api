@@ -1,4 +1,3 @@
-
 from drf_spectacular.utils import extend_schema, inline_serializer
 from rest_framework import serializers
 from drf_spectacular.utils import OpenApiExample, OpenApiResponse
@@ -14,7 +13,7 @@ class Schemas:
                 fields={
                     "access": serializers.CharField(),
                     "refresh": serializers.CharField(),
-                }
+                },
             ),
             401: OpenApiResponse(
                 description="Unauthorized access",

@@ -5,6 +5,7 @@ from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, inline_serializer
 from rest_framework import serializers
 
+
 class Schemas:
     UserSchema = {
         "summary": "Retrive User Info",

@@ -14,12 +14,12 @@ from portfolio_api_app.errors import *
     description=Schemas.UserSchema["description"],
     responses=Schemas.UserSchema["responses"],
 )
-@api_view(['GET'])
+@api_view(["GET"])
 def get_user(request):
     user = request.user
 
     if not user.is_authenticated:
-        return JsonResponse({'error': 'User not authenticated'}, status=401)
+        return JsonResponse({"error": "User not authenticated"}, status=401)
 
     user_serializer = CustomUserSerializer(user)
     return Response(user_serializer.data)
@@ -31,23 +31,21 @@ def get_user(request):
     responses=Schemas.UserSchema["responses"],
     request=Schemas.UserSchema["request"],
 )
-@api_view(['PUT'])
+@api_view(["PUT"])
 def update_user(request):
     user = request.user
 
     if not user.is_authenticated:
-        return JsonResponse({'error': 'User not authenticated'}, status=401)
+        return JsonResponse({"error": "User not authenticated"}, status=401)
 
     try:
-        serializer = CustomUserSerializer(user,
-                                          data=request.data, partial=True)
+        serializer = CustomUserSerializer(user, data=request.data, partial=True)
 
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
-            return Response(serializer.errors,
-                            status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     except Portfolio.DoesNotExist:
-        return JsonResponse({'error': 'Portfolio not found'}, status=404)
+        return JsonResponse({"error": "Portfolio not found"}, status=404)
